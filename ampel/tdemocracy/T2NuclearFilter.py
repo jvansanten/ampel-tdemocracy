@@ -63,6 +63,7 @@ class T2NuclearFilter(AbsTiedStateT2Unit, AbsTabulatedT2Unit, LasairAnnotator):
 
     result_adapter: UnitModel | None = None
     do_lasair_annotation: bool = True
+    always_return_body: bool = True
     lasair_topic: Literal["tdemocracy-nuclear-stream"] = "tdemocracy-nuclear-stream"  # type: ignore
     lasair_version = "lsst"
 
@@ -383,4 +384,4 @@ class T2NuclearFilter(AbsTiedStateT2Unit, AbsTabulatedT2Unit, LasairAnnotator):
                 )
 
         result = NuclearFilterResult(passed=passed, report=report)
-        return UnitResult(body=result.model_dump(), adapter=self.result_adapter)
+        return UnitResult(body=result.model_dump(), adapter=self.result_adapter) if passed or self.always_return_body else None
